@@ -1,0 +1,618 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --pink: #ff4f8b;
+    --dark-pink: #e83e78;
+    --light-pink: #fff6fa;
+    --text: #3c2630;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    display: grid;
+
+    place-items: center;
+
+    padding: 20px;
+
+    font-family:
+        "Segoe UI",
+        system-ui,
+        sans-serif;
+
+    color: var(--text);
+
+    background:
+
+        radial-gradient(
+            circle at 15% 20%,
+            #ffd6e6 0 12%,
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 85% 80%,
+            #ffe6ef 0 12%,
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #fff8fb,
+            #ffeef5
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* Main card */
+
+.card {
+
+    width: min(
+        560px,
+        100%
+    );
+
+    min-height: 610px;
+
+    padding:
+        45px 30px 30px;
+
+    text-align: center;
+
+    border:
+        1px solid
+        rgba(255,79,139,.18);
+
+    border-radius: 32px;
+
+    background:
+        rgba(255,255,255,.82);
+
+    backdrop-filter:
+        blur(15px);
+
+    box-shadow:
+        0 25px 70px
+        rgba(177,54,100,.16);
+
+    position: relative;
+}
+
+
+/* Heart */
+
+.heart {
+
+    font-size: 58px;
+
+    animation:
+        float 2.5s
+        ease-in-out
+        infinite;
+}
+
+
+.eyebrow {
+
+    margin:
+        14px 0 4px;
+
+    color:
+        #a45c78;
+
+    font-size: 13px;
+
+    letter-spacing: 2px;
+
+    text-transform:
+        uppercase;
+}
+
+
+h1 {
+
+    margin:
+        8px 0 18px;
+
+    font-size:
+        clamp(
+            36px,
+            9vw,
+            58px
+        );
+
+    line-height: 1;
+}
+
+
+.message {
+
+    max-width:
+        430px;
+
+    margin:
+        auto;
+
+    font-size:
+        17px;
+
+    line-height:
+        1.7;
+
+    color:
+        #684653;
+}
+
+
+/* Buttons */
+
+.buttons-area {
+
+    position:
+        relative;
+
+    min-height:
+        125px;
+
+    margin-top:
+        25px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        14px;
+}
+
+
+.btn {
+
+    border:
+        0;
+
+    border-radius:
+        999px;
+
+    padding:
+        15px 22px;
+
+    font-weight:
+        800;
+
+    font-size:
+        15px;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.btn:hover {
+
+    transform:
+        translateY(-2px);
+}
+
+
+.forgive {
+
+    color:
+        white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--dark-pink)
+        );
+
+    box-shadow:
+        0 10px 25px
+        rgba(232,62,120,.28);
+}
+
+
+.angry {
+
+    color:
+        #633444;
+
+    background:
+        #ffe2ec;
+}
+
+
+.angry.flee {
+
+    position:
+        fixed;
+
+    z-index:
+        50;
+
+    transition:
+        left .12s ease,
+        top .12s ease,
+        transform .15s ease;
+}
+
+
+/* Never forgive */
+
+.never {
+
+    margin-top:
+        5px;
+
+    border:
+        1px dashed
+        #e78aa9;
+
+    color:
+        #a44064;
+
+    background:
+        transparent;
+
+    padding:
+        10px 15px;
+
+    border-radius:
+        999px;
+
+    cursor:
+        pointer;
+}
+
+
+/* Counter */
+
+.counter-box {
+
+    margin:
+        25px auto 10px;
+
+    padding:
+        12px 18px;
+
+    width:
+        fit-content;
+
+    border-radius:
+        999px;
+
+    background:
+        #fff0f5;
+
+    color:
+        #8e526a;
+}
+
+
+.counter-box strong {
+
+    color:
+        var(--dark-pink);
+
+    font-size:
+        20px;
+
+    margin-left:
+        6px;
+}
+
+
+/* Result */
+
+.result {
+
+    min-height:
+        35px;
+
+    margin-top:
+        14px;
+
+    font-weight:
+        700;
+
+    color:
+        #a23e65;
+}
+
+
+.success {
+
+    color:
+        #26815a;
+}
+
+
+/* Gifts */
+
+.gift {
+
+    margin:
+        20px auto 0;
+
+    padding:
+        18px;
+
+    border-radius:
+        20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff0b8,
+            #fff8dc
+        );
+
+    border:
+        1px solid
+        #f3d56b;
+
+    animation:
+        pop .4s ease;
+}
+
+
+.gift-title {
+
+    font-weight:
+        900;
+
+    font-size:
+        18px;
+}
+
+
+.gift-main {
+
+    margin-top:
+        7px;
+
+    font-weight:
+        800;
+}
+
+
+.gift-sub {
+
+    margin-top:
+        5px;
+
+    font-size:
+        13px;
+
+    color:
+        #79612c;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+/* Small footer */
+
+.tiny {
+
+    margin-top:
+        28px;
+
+    color:
+        #b08a98;
+
+    font-size:
+        11px;
+}
+
+
+/* Popup */
+
+.popup {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        100;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    padding:
+        20px;
+
+    background:
+        rgba(57,22,37,.42);
+
+    backdrop-filter:
+        blur(6px);
+}
+
+
+/* Popup fade */
+
+.popup.fade-out {
+
+    animation:
+        fadeOut .8s forwards;
+}
+
+
+.popup-card {
+
+    width:
+        min(390px,100%);
+
+    padding:
+        35px 25px;
+
+    text-align:
+        center;
+
+    border-radius:
+        28px;
+
+    background:
+        white;
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,.2);
+
+    animation:
+        pop .25s ease;
+}
+
+
+.popup-icon {
+
+    font-size:
+        50px;
+}
+
+
+.popup-card h2 {
+
+    margin-bottom:
+        8px;
+}
+
+
+.popup-card p {
+
+    color:
+        #73515f;
+
+    line-height:
+        1.6;
+}
+
+
+/* Animations */
+
+.shake {
+
+    animation:
+        shake .4s ease;
+}
+
+
+@keyframes float {
+
+    50% {
+
+        transform:
+            translateY(-9px)
+            rotate(3deg);
+    }
+}
+
+
+@keyframes pop {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            scale(.9);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            scale(1);
+    }
+}
+
+
+@keyframes fadeOut {
+
+    from {
+
+        opacity:
+            1;
+    }
+
+    to {
+
+        opacity:
+            0;
+    }
+}
+
+
+@keyframes shake {
+
+    25% {
+
+        transform:
+            translateX(-5px);
+    }
+
+    75% {
+
+        transform:
+            translateX(5px);
+    }
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .card {
+
+        padding:
+            35px 18px 25px;
+
+        min-height:
+            590px;
+    }
+
+    .buttons-area {
+
+        min-height:
+            150px;
+    }
+
+    .buttons-area .btn {
+
+        padding:
+            13px 17px;
+    }
+}
