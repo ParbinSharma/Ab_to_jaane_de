@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sorry</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<main class="card">
+
+    <p class="eyebrow">A little message for you</p>
+
+    <h1>Abey Sorry na, maan ja</h1>
+
+    <p class="message">
+        E bhai, sunna,dekh meko pta hai maine sb kuch bht zyada bigar diya hai,
+        meri glti ,i know,lekin ab sb kuch crystal clear hai re,
+        i promise i wont cross the lines again, aur mai nhi chahta ki
+        teri jaisi achi dost ko mai kho du,can we jst please be normal,
+        wo chapter ab hamesha ke liye closed hai aur closed hi rahega
+        iska mera gaurentee.Please maaf krde!!!
+    </p>
+
+    <div class="buttons-area">
+
+        <button id="forgiveBtn" class="btn forgive">
+            Jaah jane diye issbar
+        </button>
+
+        <button id="angryBtn" class="btn angry">
+            Thora aur nakhre krne ke bd chorungi
+        </button>
+
+    </div>
+
+    <button id="neverBtn" class="never">
+        gaar mara,nhi manungi
+    </button>
+
+    <div class="counter-box">
+        Your Nakhra Count:
+        <strong id="count">0</strong>
+    </div>
+
+    <div id="gift" class="gift hidden"></div>
+
+    <div id="result" class="result"></div>
+
+</main>
+
+
+<!-- Popup -->
+
+<div id="popup" class="popup hidden">
+
+    <div class="popup-card">
+
+        <div class="popup-icon"></div>
+
+        <h2>
+            Practical nhi hai,we can do vice versa
+            (mazak kr rhe bura mt maniyo)
+        </h2>
+
+        <p>
+            Abey itna bhi gussa nhi hona hota hai
+        </p>
+
+        <button id="closePopup" class="btn forgive">
+            😒
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const angryBtn = document.getElementById("angryBtn");
+const forgiveBtn = document.getElementById("forgiveBtn");
+const neverBtn = document.getElementById("neverBtn");
+const closePopup = document.getElementById("closePopup");
+
+const popup = document.getElementById("popup");
+const result = document.getElementById("result");
+const countEl = document.getElementById("count");
+const giftEl = document.getElementById("gift");
+
+
+/* =====================================================
+   LOCAL ANGRY COUNT
+===================================================== */
+
+/*
+    The count is stored inside the browser.
+
+    localStorage means:
+    - Refreshing the page won't reset it
+    - Closing the browser won't reset it
+    - Reopening the website keeps the count
+
+    It is NOT stored on a server.
+*/
+
+const STORAGE_KEY = "sorry_nakhra_count";
+
+let angryCount =
+    parseInt(
+        localStorage.getItem(STORAGE_KEY)
+    ) || 0;
+
+
+/* =====================================================
+   BUTTON SIZE SYSTEM
+===================================================== */
+
+const BASE_ANGRY_SIZE = 15;
+const BASE_FORGIVE_SIZE = 15;
+
+const SIZE_STEP = 0.7;
+
+
+function updateButtonSizes() {
+
+    /*
+        Angry button becomes smaller.
+        Forgive button becomes bigger.
+    */
+
+    const change = Math.min(
+        7,
+        angryCount * SIZE_STEP
+    );
+
+
+    const angrySize = Math.max(
+        8,
+        BASE_ANGRY_SIZE - change
+    );
+
+
+    const forgiveSize = Math.min(
+        22,
+        BASE_FORGIVE_SIZE + change
+    );
+
+
+    /* Angry button */
+
+    angryBtn.style.fontSize =
+        angrySize + "px";
+
+    angryBtn.style.padding =
+        `${Math.max(7, 15 - change * 0.55)}px
+         ${Math.max(9, 22 - change * 0.8)}px`;
+
+
+    /* Forgive button */
+
+    forgiveBtn.style.fontSize =
+        forgiveSize + "px";
+
+    forgiveBtn.style.padding =
+        `${Math.min(20, 15 + change * 0.55)}px
+         ${Math.min(32, 22 + change * 0.8)}px`;
+}
+
+
+/* =====================================================
+   SAVE COUNT LOCALLY
+===================================================== */
+
+function saveCount() {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        angryCount
+    );
+
+}
+
+
+/* =====================================================
+   GIFTS
+===================================================== */
+
+function showGift(count) {
+
+    /*
+        15+ angry clicks
+    */
+
+    if (count >= 15) {
+
+        giftEl.classList.remove("hidden");
+
+        giftEl.innerHTML = `
+            <div class="gift-title">
+                Acha chl ab ek lipstick bhi le liyo teri psnd ka
+            </div>
+
+            <div class="gift-main">
+                
+            </div>
+
+            <div class="gift-sub">
+              ab to chor de meri salary bhi 7 tarik ko aati hai tere se kam hi aati hai
+            </div>
+        `;
+
+    }
+
+    /*
+        10+ angry clicks
+    */
+
+    else if (count >= 10) {
+
+        giftEl.classList.remove("hidden");
+
+        giftEl.innerHTML = `
+            <div class="gift-title">
+              Abey ja ye lele ab
+            </div>
+
+            <div class="gift-main">
+                MARS Lip Liner — Shade 14 Choco Butter whi wala ab tak to khatam ho gya hoga
+            </div>
+
+            <div class="gift-sub">
+                Ab to jaane de
+            </div>
+        `;
+
+    }
+
+    else {
+
+        giftEl.classList.add("hidden");
+
+        giftEl.innerHTML = "";
+
+    }
+
+}
+
+
+/* =====================================================
+   MOVE ANGRY BUTTON
+===================================================== */
+
+function moveAngryButton() {
+
+    const width =
+        angryBtn.offsetWidth;
+
+    const height =
+        angryBtn.offsetHeight;
+
+
+    const padding = 16;
+
+
+    const maxX =
+        Math.max(
+            padding,
+            window.innerWidth -
+            width -
+            padding
+        );
+
+
+    const maxY =
+        Math.max(
+            padding,
+            window.innerHeight -
+            height -
+            padding
+        );
+
+
+    angryBtn.classList.add("flee");
+
+
+    angryBtn.style.left =
+        Math.floor(
+            Math.random() * maxX
+        ) + "px";
+
+
+    angryBtn.style.top =
+        Math.floor(
+            Math.random() * maxY
+        ) + "px";
+}
+
+
+/* =====================================================
+   ANGRY BUTTON
+===================================================== */
+
+async function angryInteraction(event) {
+
+    event.preventDefault();
+
+
+    /* Increase local count */
+
+    angryCount++;
+
+
+    /* Save it */
+
+    saveCount();
+
+
+    /* Update display */
+
+    countEl.textContent =
+        angryCount;
+
+
+    /* Resize buttons */
+
+    updateButtonSizes();
+
+
+    /* Check gifts */
+
+    showGift(
+        angryCount
+    );
+
+
+    /* Message */
+
+    result.textContent =
+        angryCount < 5
+            ? "Acha sorry na😭"
+            : angryCount < 10
+                ? "Itna nakhra kyun 😭"
+                : angryCount < 15
+                    ? "Ab bas bhi karo 😭"
+                    : "15 BAAR?! 😭 GIFT LO AB";
+
+
+    result.className =
+        "result shake";
+
+
+    setTimeout(() => {
+
+        result.classList.remove(
+            "shake"
+        );
+
+    }, 400);
+
+
+    /* Move button */
+
+    moveAngryButton();
+}
+
+
+/* =====================================================
+   ANGRY EVENTS
+===================================================== */
+
+angryBtn.addEventListener(
+    "pointerdown",
+    angryInteraction
+);
+
+
+angryBtn.addEventListener(
+    "click",
+    event => event.preventDefault()
+);
+
+
+/*
+    Make the button run away when
+    mouse approaches it.
+*/
+
+angryBtn.addEventListener(
+    "pointerenter",
+    () => {
+
+        if (window.innerWidth > 700) {
+
+            moveAngryButton();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FORGIVE BUTTON
+===================================================== */
+
+forgiveBtn.addEventListener(
+    "click",
+    () => {
+
+        result.textContent =
+            "Chlo final nautanki khtam hua inka";
+
+        result.className =
+            "result success";
+
+
+        showGift(
+            angryCount
+        );
+
+
+        /*
+            WhatsApp
+        */
+
+        sendWhatsApp();
+
+    }
+);
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+let popupTimer;
+
+
+function showPopup() {
+
+    popup.classList.remove(
+        "hidden",
+        "fade-out"
+    );
+
+
+    clearTimeout(
+        popupTimer
+    );
+
+
+    /*
+        Automatically fade after
+        10 seconds.
+    */
+
+    popupTimer =
+        setTimeout(() => {
+
+            popup.classList.add(
+                "fade-out"
+            );
+
+
+            setTimeout(() => {
+
+                popup.classList.add(
+                    "hidden"
+                );
+
+            }, 800);
+
+        }, 10000);
+}
+
+
+/* =====================================================
+   NEVER FORGIVE
+===================================================== */
+
+neverBtn.addEventListener(
+    "click",
+    () => {
+
+        result.textContent =
+            "Accha thik hai 😭 itna bhi gussa?";
+
+
+        showPopup();
+
+    }
+);
+
+
+/* =====================================================
+   CLOSE POPUP
+===================================================== */
+
+function hidePopup() {
+
+    clearTimeout(
+        popupTimer
+    );
+
+
+    popup.classList.add(
+        "fade-out"
+    );
+
+
+    setTimeout(() => {
+
+        popup.classList.add(
+            "hidden"
+        );
+
+    }, 800);
+
+}
+
+
+closePopup.addEventListener(
+    "click",
+    hidePopup
+);
+
+
+/* =====================================================
+   CLICK OUTSIDE POPUP
+===================================================== */
+
+popup.addEventListener(
+    "click",
+    event => {
+
+        if (event.target === popup) {
+
+            hidePopup();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function sendWhatsApp() {
+
+    const message =
+        "Han thik hai jane diye ,thori si chutiya to mai bhi hu ik,ki maine itne din se msg nhi kiya";
+
+
+    const url =
+        `https://wa.me/7439175814?text=${encodeURIComponent(message)}`;
+
+
+    window.open(
+        url,
+        "_blank"
+    );
+}
+
+
+/* =====================================================
+   INITIAL PAGE LOAD
+===================================================== */
+
+/*
+    Restore the locally saved count.
+*/
+
+countEl.textContent =
+    angryCount;
+
+
+updateButtonSizes();
+
+
+showGift(
+    angryCount
+);
+
+</script>
+
+</body>
+</html>
